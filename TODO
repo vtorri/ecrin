@@ -1,4 +1,10 @@
 List of things to do...
 
 - eviewer : Simple and fast usable image viewer
+   - Modes d'affichage : 
+      - Classique (type gqview, petite & grandes mignatures)
+      - Wall (type wallpaper2)
+      - Carousel
+
+   - Affichage des images uniquement
 
