@@ -1,0 +1,254 @@
+Ecrin coding style
+
+This document is intended to be a short description of the preferred
+coding style for the Ecrin source code.
+
+We want the code to be easy to understand and maintain, and consistent
+style plays an important part in that, even if some of the specific
+details seem trivial. If nothing else, this document gives a place to
+put consistent answers for issues that would otherwise be arbitrary.
+
+Most of the guidelines here are demonstrated by examples, (which means
+this document is quicker to read than it might appear given its
+length). Most of the examples are positive examples that you should
+imitate. The few negative examples are clearly marked with a comment
+of /* Yuck! */. Please don't submit code to the Ecrin that looks like
+any of these.
+
+Indentation
+-----------
+
+Do not use tabulation.
+
+Each new level is indented 4 more spaces than the previous level:
+
+    if (condition)
+        do_something ();
+
+Braces
+------
+
+The bracing does not follow the style of K&R:
+
+    if (condition) {      /* Yuck! */
+        do_this ();
+        do_that ();
+    } else {              /* Yuck! */
+        do_the_other ();
+    }
+
+Braces begin in the next line, at the same level of the previous line:
+
+    if (condition)
+    {
+        do_this ();
+        do_that ();
+    }
+    else
+    {
+        do_the_other ();
+    }
+
+If all of the substatements of an if statement are single statements,
+the optional braces should not usually appear:
+
+    if (condition)
+        do_this ();
+    else
+        do_that ();
+
+And of course, there are exceptions for when the code just looks
+better and more readable with the braces:
+
+    if (condition)
+    {
+        /* Note that we have to be careful here. */
+        do_something_dangerous (with_care);
+    }
+
+    if (condition &&
+        other_condition &&
+        yet_another)
+    {
+        do_something ();
+    }
+
+Whitespace
+----------
+Separate logically distinct chunks with a single newline. This
+obviously applies between functions, but also applies within a
+function or block and can even be used to good effect within a
+structure definition:
+
+    struct _RGBA_Font_Source
+    {
+        const char *name;
+        const char *file;
+
+        void       *data;
+        int         data_size;
+        int         current_size;
+
+        struct
+        {
+            int     orig_upem;
+            FT_Face face;
+        } ft;
+
+        int         references;
+    };
+
+Use a single space before a left parenthesis, except where the
+standard will not allow it, (eg. when defining a parameterized macro)
+and on function declaration, definition and use.
+
+Use a single space before and after a binary operator (+, -, *, /, %,
++=, -=, etc...) and a test (==, !=, &&, ||)
+
+Don't eliminate newlines just because things would still fit on one
+line. This breaks the expected visual structure of the code making it
+much harder to read and understand:
+
+    if (condition) foo(); else bar();    /* Yuck! */
+
+Do eliminate trailing whitespace (space or tab characters) on any
+line. Also, avoid putting initial or final blank lines into any file,
+and never use multiple blank lines instead of a single blank line.
+
+As a special case of the bracing and whitespace guidelines, function
+definitions should always take the following form:
+
+    void
+    my_function(argument)
+    {
+        do_my_things ();
+    }
+
+and function declaration should always take the following form:
+
+    void my_function(argument);
+
+Break up long lines (> ~80 characters) and use whitespace to align
+things nicely. For example the arguments in a long list to a function
+call should all be aligned with each other:
+
+    align_function_arguments(argument_the_first,
+                             argument_the_second,
+                             argument_the_third);
+
+And as a special rule, in a function declaration, (as well as in the
+definition), whitespace should be inserted between the parameter types
+and names so that the names are aligned:
+
+    void align_parameter_names_in_prototypes(const char *char_star_arg,
+                                             int         int_arg,
+                                             double     *double_star_arg,
+                                             double      double_arg);
+
+Note that parameters with a * prefix are aligned one character to the
+left so that the actual names are aligned. The same rule applys in structure
+or union definitions
+
+In a pointer declaration or parameter, the * is next to the name:
+
+    int *var;
+
+A label begins one space after the level of the current block:
+
+int
+foo()
+{
+    ...
+
+ label:
+    ...
+}
+
+Managing nested blocks
+----------------------
+
+Long blocks that are deeply nested make the code very hard to
+read. Fortunately such blocks often indicate logically distinct chunks
+of functionality that are begging to be split into their own
+functions. Please listen to the blocks when they beg.
+
+In other cases, gratuitous nesting comes about because the primary
+functionality gets buried in a nested block rather than living at the
+primary level where it belongs. Consider the following:
+
+    foo = malloc(sizeof(foo_t));
+    if (foo)
+    {                                           /* Yuck! */
+        ...
+        /* lots of code to initialize foo */
+        ...
+        return SUCCESS;
+    }
+    return FAILURE;
+
+This kind of gratuitous nesting can be avoided by following a pattern
+of handling exceptional cases early and returning:
+
+    foo = malloc(sizeof (foo_t));
+    if (foo == NULL)
+        return FAILURE;
+
+    ...
+    /* lots of code to initialize foo */
+    ...
+    return SUCCESS;
+
+The return statement is often the best thing to use in a pattern like
+this. If it's not available due to additional nesting above which
+require some cleanup after the current block, then consider splitting
+the current block into a new function before using goto:
+
+    int
+    foo_init(void)
+    {
+        if (_foo_main_count) goto finish_init;
+
+        if (!bar1_init())
+        {
+            fprintf(stderr, "Could not initialize bar1 module.\n");
+            return 0;
+        }
+
+        if (!bar2_init())
+        {
+            fprintf(stderr, "Could not initialize bar2 log module.\n");
+            goto bar2_error;
+        }
+
+        if (!bar3_hash_init())
+        {
+            fprintf(stderr, "Could not initialize bar3 log module.\n");
+            goto bar3_error;
+        }
+
+     finish_init:
+        return ++_foo_main_count;
+
+     bar3_error:
+        bar2_shutdown();
+     bar2_string_init_error:
+        bar2_shutdown();
+
+        return 0;
+    }
+
+Mode lines
+----------
+
+So given the rules above, what is the best way to simplify one's life as
+a code monkey? Get your editor to do most of the tedious work of
+beautifying your code!
+
+Here are some mode lines for the more popular editors:
+
+
+TODO
+----
+
+Write rules for common editors to use this style: vi, emacs, jed, eclipse,
+scite, indent.
