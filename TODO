@@ -1,5 +1,9 @@
 List of things to do...
 
+[ ] : not done
+[*] : wip
+[x] : almost done
+
 - eviewer : Simple and fast usable image viewer
    - Modes d'affichage :
       - Classique (type gqview, petite & grandes mignatures)
@@ -10,14 +14,14 @@ List of things to do...
 
 - etui : multiple document viewer
    - library
-      - pdf (mupdf)
-      - xps (mupdf)
-      - ps  (libspectre)
-      - dvi (dvilib)
-      - djvu (djvulibre)
-      - epub (libepub)
-      - comic book and images
-      - text
+[x]   - pdf (mupdf)
+[x]   - xps (mupdf)
+[*]   - ps  (libspectre)
+[ ]   - dvi (dvilib)
+[ ]   - djvu (djvulibre)
+[ ]   - epub (libepub)
+[*]   - comic book and images
+[ ]   - text
    - application
-      - classic view
-      - wall
+[ ]   - classic view
+[ ]   - wall
