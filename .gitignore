@@ -25,6 +25,8 @@ autom4te.cache
 .deps
 .dirstamp
 .libs
+etui/src/bin/etui
+etui/src/bin/etui_elm
 *.exe
 *.la
 *.lo
