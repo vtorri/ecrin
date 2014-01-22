@@ -422,7 +422,6 @@ etui_object_file_set(Evas_Object *obj, const char *filename)
                  (strcmp(mime, "image/x-pbm") == 0) ||
                  (strcmp(mime, "image/x-portable-anymap") == 0) ||
                  (strcmp(mime, "image/x-portable/anymap") == 0) ||
-                 (strcmp(mime, "image/pbm") == 0) ||
                  (strcmp(mime, "image/png") == 0) ||
                  (strcmp(mime, "image/x-png") == 0) ||
                  (strcmp(mime, "image/x-photoshop") == 0) ||
