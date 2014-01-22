@@ -298,10 +298,11 @@ _etui_pdf_page_links_fill(Eina_Array *items, fz_link *links)
 {
     fz_link *iter;
     fz_irect rect;
-    Etui_Link_Item *item;
 
     for (iter = links; iter; iter = iter->next)
     {
+        Etui_Link_Item *item;
+
         item = (Etui_Link_Item *)calloc(1, sizeof(Etui_Link_Item));
         if (!item)
             continue;
@@ -387,7 +388,6 @@ _etui_pdf_toc_fill(Eina_Array *items, fz_outline *outline)
 {
     fz_outline *iter;
     Eina_Array *res;
-    Etui_Toc_Item *item;
 
     if (!items)
         res = eina_array_new(4);
@@ -396,6 +396,8 @@ _etui_pdf_toc_fill(Eina_Array *items, fz_outline *outline)
 
     for (iter = outline; iter; iter = iter->next)
     {
+        Etui_Toc_Item *item;
+
         item = (Etui_Toc_Item *)calloc(1, sizeof(Etui_Toc_Item));
         if (!item)
             continue;

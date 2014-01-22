@@ -154,7 +154,6 @@ _etui_provider_instance_new(const Etui_Provider_Descriptor *provider,
 static Eina_Bool
 _etui_modules_load(void)
 {
-    char buf[PATH_MAX];
     char *path;
     Eina_Prefix *prefix;
 
@@ -183,6 +182,8 @@ _etui_modules_load(void)
                              PACKAGE_DATA_DIR, PACKAGE_DATA_DIR);
     if (prefix)
     {
+        char buf[PATH_MAX];
+
         snprintf(buf, sizeof(buf),
                  "%s/etui/modules", eina_prefix_lib_get(prefix));
         _etui_modules = eina_module_arch_list_get(_etui_modules, buf, MODULE_ARCH);

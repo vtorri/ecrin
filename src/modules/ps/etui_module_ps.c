@@ -259,7 +259,6 @@ _etui_ps_gs_process(Etui_Provider_Data *pd, int x, int y, long begin, long end)
     static char buf[BUFFER_SIZE];
     int err;
     int exit_code;
-    unsigned int r;
     size_t left;
 
     if (fseek(pd->doc.f, begin, SEEK_SET) < 0)
@@ -285,6 +284,7 @@ _etui_ps_gs_process(Etui_Provider_Data *pd, int x, int y, long begin, long end)
     while (left > 0)
     {
         size_t to_read;
+        unsigned int r;
 
         to_read = BUFFER_SIZE;
         if (left < to_read)

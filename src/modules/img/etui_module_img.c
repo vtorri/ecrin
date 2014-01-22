@@ -1072,7 +1072,6 @@ _etui_img_page_render_pre(void *d)
             struct RARHeaderDataEx rar_header_data;
             HANDLE rar_archive;
             int rar_header_code;
-            int rar_process_file_code;
             Etui_Img_Cbr_Data *data;
             unsigned int idx;
 
@@ -1092,6 +1091,8 @@ _etui_img_page_render_pre(void *d)
             data = eina_array_data_get(&pd->doc.toc, pd->page.page_num);
             while ((rar_header_code = RARReadHeaderEx(rar_archive, &rar_header_data)) == 0)
             {
+                int rar_process_file_code;
+
                 if (idx == data->idx)
                 {
                     pd->page.rar.getting_data = 1;

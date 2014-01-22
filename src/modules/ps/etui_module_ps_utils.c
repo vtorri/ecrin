@@ -64,10 +64,10 @@ etui_strncasecmp (const char *s1,
                   const char *s2,
                   size_t n)
 {
-    int c1, c2;
-
     while (n && *s1 && *s2)
     {
+        int c1, c2;
+
         n -= 1;
         c1 = (int)(unsigned char)ETUI_TO_LOWERCASE(*s1);
         c2 = (int)(unsigned char)ETUI_TO_LOWERCASE(*s2);
@@ -84,10 +84,10 @@ int
 etui_strcasecmp (const char *s1,
                  const char *s2)
 {
-    int c1, c2;
-
     while (*s1 && *s2)
     {
+        int c1, c2;
+
         c1 = (int)(unsigned char)ETUI_TO_LOWERCASE(*s1);
         c2 = (int)(unsigned char)ETUI_TO_LOWERCASE(*s2);
         if (c1 != c2)
@@ -132,7 +132,6 @@ etui_strtod(const char * pString, char ** ppEnd)
     const char * pNumberStart;
     const char * pNumberEnd;
     unsigned int numberLen;
-    double result;
 
     /* Find the start of the string */
     pNumberStart = pString;
@@ -179,6 +178,8 @@ etui_strtod(const char * pString, char ** ppEnd)
     numberLen = pNumberEnd - pNumberStart;
     if ((numberLen + 1) < sizeof(buffer))
     {
+        double result;
+
         /* copy into buffer and terminate with NUL before calling the */
         /* standard function */
         memcpy(buffer, pNumberStart, numberLen * sizeof(buffer[0]));
