@@ -1,0 +1,86 @@
+List of things to do...
+
+[ ] : not done
+[*] : wip
+[x] : almost done
+
+- library
+[*] - pdf (mupdf)
+[ ]   - annotations
+[ ]   - forms
+[*] - xps (mupdf)
+[*] - ps  (libspectre)
+[ ] - dvi (dvilib)
+[ ] - djvu (djvulibre)
+[ ] - epub (libepub)
+[*] - comic book and images
+[ ] - text
+- application
+[ ] - application icon
+[ ] - help
+[ ] - search
+[ ] - thubnails
+
+
+GUI:
+
+    [09:07:56] <vtorri_> raoulh, pour mon petit prog de rendering de multi doc, j'aimerais que l'aide apparaisse en appuyant sur la touche h
+    [09:08:31] <vtorri_> raoulh, que me conseillerais-tu pour avoir quelque chose de sympa pour l'affichage de cette aide ?
+    [09:08:40] <vtorri_> animation, couleurs, etc...
+    [09:08:46] <raoulh> heu
+    [09:08:52] <raoulh> comment ca?
+    [09:09:05] <vtorri_> un rectangle aux coins arrondis qui arriverait par le haut ?
+    [09:09:27] <raoulh> tu as quoi dans ton aide?
+    [09:09:30] <vtorri_> ou bien qui arriverait d'un coup avec un effet de "bouncing" ?
+    [09:09:54] <vtorri_> principalement, la liste eds touches avec les fonctionalités associéesié
+    [09:10:16] <vtorri_> plus éventuellment d'autres trucsr
+    [09:10:38] <raoulh> tu dois scroller ou tout rentre dedans?
+    [09:11:07] <vtorri_> je ne sais pas encore
+    [09:11:17] <vtorri_> on va dire que pas de scroll pour l'instant
+    [09:12:07] <raoulh> le plus simple c'est un fade d'un rectangle avec ton texte dedans
+    [09:12:58] <raoulh> apres si t'as pas de scroll et si c'est juste du texte statique tu peux t'amuser en faisant apparaitre chaque ligne apres l'autre
+    [09:13:04] <raoulh> mais c'est plus chiant a faire
+    [09:13:16] <vtorri_> et un obscurcissement du document qui est actuellement affiché ?h
+    [09:13:20] <raoulh> oui
+    [09:13:37] <vtorri_> on fait comment en edje, cet obscurcissement ?
+    [09:13:41] <raoulh> un gros RECT noir avec un alpha dessus
+    [09:13:56] <raoulh> genre 0 0 0 180 de couleur
+    [09:14:03] <vtorri_> qui est show/hide par l'application ?
+    [09:14:19] <raoulh> ben ca fait partie de l'edje pour l'aide
+    [09:14:34] <vtorri_> bon
+    [09:14:41] <raoulh> et tu lances une anim de fade sur ce RECT au moment du show de l'aide
+    [09:15:01] <vtorri_> je suis très rouillé en edje :/e
+    [09:15:14] <raoulh> donc tu fais un group edje "app/help"
+    [09:15:14] <vtorri_> merci
+    [09:15:19] <vtorri_> vas-y
+    [09:15:20] <raoulh> ou qq chose comme ca
+    [09:15:21] <vtorri_> continue
+    [09:15:24] <vtorri_> :)
+    [09:15:46] <raoulh> dans ton appli tu charge ce group edje quand tu appuis sur h
+    [09:16:30] <raoulh> tu fais un evas_object_move(0, 0) et resize(fenetre_w, fenetre_h) de l'edje
+    [09:17:02] <raoulh> et tu envois un signal edje_object_signal_emit(help, "show", "app")
+    [09:17:36] <raoulh> ensuite dans l'edje tu cree un RECT
+    [09:18:04] <raoulh> avec comme couleur 0 0 0 180 en 1er pour l'obscurcissement
+    [09:18:08] <raoulh> avec 2 description
+    [09:18:38] <vtorri_> ok
+    [09:18:45] <raoulh> une avec la couleur 0 0 0 0 et l'autre avec un state "shown" et la couleur 0 0 0 180
+    [09:18:53] <raoulh> ensuite tu fais un program
+    [09:19:21] <raoulh> program {
+    [09:19:27] <raoulh> signal: "show"
+    [09:19:31] <raoulh> source: "app"
+    [09:19:46] <raoulh> action: STATE_SET "shown" 0.0;
+    [09:19:59] <raoulh> transition: DECELERATE;
+    [09:20:10] <raoulh> target: "ton_rect";
+    [09:20:27] <raoulh> et voila t'as ton overlay qui s'affiche
+    [09:20:30] <vtorri_> ok
+    [09:20:37] <raoulh> tu peut aussi faire la meme chose pour le hide
+    [09:20:41] <vtorri_> pareil avec le signal "hide quand on supprime l'aide
+    [09:20:44] <vtorri_> :)
+    [09:20:44] <raoulh> oui
+    [09:20:55] <vtorri_> merci
+    [09:21:04] <raoulh> sauf que pour le hide il faut gerer le free de l'edje
+    [09:21:19] <vtorri_> on ne le garde pas en memoire ?
+    [09:21:30] <raoulh> tu peux si tu veux
+    [09:21:34] <vtorri_> pour un eventuel affichage ulterieur de l'aide ?
+    [09:21:46] <raoulh> mais c'est plus propre de le virer je trouve
+    [09:22:05] <raoulh> a toi de voir
