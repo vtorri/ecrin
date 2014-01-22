@@ -2050,7 +2050,7 @@ pscopypage (FILE *from, FILE *to, Document d, unsigned int page, unsigned int n_
     fd = ps_io_init(from);
 
     comment = pscopyuntil(fd,to,d->pages[page].begin,d->pages[page].end, "%%Page:");
-    fprintf(to, "%%%%Page: %s %d\n",d->pages[page].label, n_page);
+    fprintf(to, "%%%%Page: %s %u\n",d->pages[page].label, n_page);
     PS_free(comment);
     pscopyuntil(fd, to, -1, d->pages[page].end,NULL);
 
@@ -2071,7 +2071,7 @@ pscopytrailer (FILE *from, FILE *to, Document d, unsigned int n_pages)
     if (!d->epsf) {
         pscopyuntil(fd, to, here, here + strlen ("%%Trailer") + 1, NULL);
         here = ps_io_ftell(fd);
-        fprintf(to, "%%%%Pages: %d\n",n_pages);
+        fprintf(to, "%%%%Pages: %u\n",n_pages);
     }
 
     while ((comment = pscopyuntil(fd, to, here, d->endtrailer, "%%Pages:"))) {
@@ -2136,7 +2136,7 @@ pscopydoc(dest_file,src_filename,d,pagelist)
        } else {
           switch (sscanf(comment+length("%%Pages:"), "%*d %u", &i)) {
              case 1:
-                fprintf(dest_file, "%%%%Pages: %d %d\n", pages, i);
+                fprintf(dest_file, "%%%%Pages: %d %u\n", pages, i);
                 break;
              default:
                 fprintf(dest_file, "%%%%Pages: %d\n", pages);
@@ -2171,7 +2171,7 @@ pscopydoc(dest_file,src_filename,d,pagelist)
       }
       switch (sscanf(comment+length("%%Pages:"), "%*d %u", &i)) {
          case 1:
-            fprintf(dest_file, "%%%%Pages: %d %d\n", pages, i);
+            fprintf(dest_file, "%%%%Pages: %d %u\n", pages, i);
             break;
          default:
             fprintf(dest_file, "%%%%Pages: %d\n", pages);
