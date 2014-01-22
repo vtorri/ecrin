@@ -376,7 +376,10 @@ _etui_img_cbz_central_directory_parse(Etui_Provider_Data *pd, size_t start_offse
 
         data = (Etui_Img_Cbz_Data *)malloc(sizeof(Etui_Img_Cbz_Data));
         if (!data)
+        {
+            free(file_name);
             goto free_list;
+        }
 
         data->file_name = file_name;
         data->file_offset = offset;

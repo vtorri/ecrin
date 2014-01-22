@@ -203,7 +203,7 @@ _etui_pdf_document_date_get(fz_document *doc, const char *prop)
 
     date = _etui_pdf_document_property_get(doc, prop);
     if (!date)
-            return NULL;
+        return NULL;
 
     /* FIXME: manage minutes and seconds ? */
 
@@ -226,6 +226,8 @@ _etui_pdf_document_date_get(fz_document *doc, const char *prop)
         free(date);
         return fmt;
     }
+
+    free(date);
 
     return fmt;
 }
