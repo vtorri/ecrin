@@ -617,7 +617,7 @@ _etui_ps_page_size_get(void *d, int *width, int *height)
         goto _err;
     }
 
-    if ((pd->page.width == 0) || (pd->page.width == 0))
+    if ((pd->page.width == 0) || (pd->page.height == 0))
     {
         psgetpagebox(pd->doc.doc, pd->page.page_num,
                      &x0, &y0, &x1, &y1);
