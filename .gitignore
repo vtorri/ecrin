@@ -25,11 +25,20 @@ autom4te.cache
 .deps
 .dirstamp
 .libs
+<<<<<<< HEAD
 
 src/bin/etui
 src/bin/etui_elm
+=======
+etui/src/bin/etui
+etui/src/bin/etui_elm
+>>>>>>> 4cbdae58ab962e3f8afd04a5060e35c55c54a0c1
 *.exe
 *.la
 *.lo
 *.o
 *~
+<<<<<<< HEAD
+=======
+eviewer/eviewer
+>>>>>>> 4cbdae58ab962e3f8afd04a5060e35c55c54a0c1
